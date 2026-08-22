@@ -6,7 +6,7 @@ import { useColorScheme } from 'react-native';
 import { AnimatedSplashOverlay } from '@/components/animated-icon';
 import AppTabs from '@/components/app-tabs';
 import { useHasSetup } from '@/hooks/use-first-run';
-import LandingPage from '@/components/landing-page';
+import SetupPage from '@/components/setup-page';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -29,7 +29,7 @@ function MainPage() {
       {(hasSetup ?
         <AppTabs />
         :
-        <LandingPage completeSetup={completeSetup} />)
+        <SetupPage completeSetup={completeSetup} />)
       }
     </>
   )
