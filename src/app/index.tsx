@@ -3,7 +3,6 @@ import { Platform, ScrollView, StyleSheet } from 'react-native';
 
 import { ThemedText } from '@/components/themed-text';
 import { BottomTabInset, MaxContentWidth, Spacing } from '@/constants/theme';
-import Roadmap from '@/components/roadmap';
 import { useSQLKey } from '@/hooks/use-sql-key';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
