@@ -47,7 +47,7 @@ async function migrateDbIfNeeded(db: SQLiteDatabase) {
 PRAGMA journal_mode = 'wal';
 CREATE TABLE app (key TEXT PRIMARY KEY NOT NULL, value TEXT NOT NULL);
 `);
-    await db.runAsync('INSERT INTO app (key, value) VALUES (?, ?)', 'firstRun', 'true');
+    await db.runAsync('INSERT INTO app (key, value) VALUES (?, ?)', 'hasSetup', 'false');
     currentDbVersion = 1;
   }
   await db.execAsync(`PRAGMA user_version = ${DATABASE_VERSION}`);

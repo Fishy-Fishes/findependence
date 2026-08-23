@@ -4,6 +4,8 @@ import { Platform, ScrollView, StyleSheet } from 'react-native';
 import { ThemedText } from '@/components/themed-text';
 import { BottomTabInset, MaxContentWidth, Spacing } from '@/constants/theme';
 import Roadmap from '@/components/roadmap';
+import { useSQLKey } from '@/hooks/use-sql-key';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 function getDevMenuHint() {
   if (Platform.OS === 'web') {
@@ -25,13 +27,16 @@ function getDevMenuHint() {
 }
 
 export default function HomeScreen() {
+  const [location] = useSQLKey("location");
+  const [goal] = useSQLKey("goal");
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <Roadmap />
-      <Roadmap />
-      <Roadmap />
-      <Roadmap />
-      <Roadmap />
+      <SafeAreaView style={styles.safeArea}>
+        <ThemedText type="small">
+          Location: {location}
+          Goal: {goal}
+        </ThemedText>
+      </SafeAreaView>
     </ScrollView>
   );
 }

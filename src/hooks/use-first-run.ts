@@ -1,5 +1,4 @@
-import { useSQLiteContext } from 'expo-sqlite';
-import { useEffect, useState } from 'react';
+import { useSQLKey } from './use-sql-key';
 
 interface Setting {
   key: string;
@@ -7,25 +6,8 @@ interface Setting {
 }
 
 export function useHasSetup() {
-  const db = useSQLiteContext();
-  const [hasSetup, setHasSetup] = useState(false);
+  const [hasSetup, updateHasSetup] = useSQLKey("hasSetup");
+  console.log(hasSetup)
 
-  useEffect(() => {
-    async function setup() {
-      const result = await db.getFirstAsync<Setting>("SELECT * FROM app WHERE key = 'firstRun'");
-      if (!result || result.value == 'true') {
-        setHasSetup(false);
-      } else {
-        setHasSetup(true);
-      }
-    }
-    setup();
-  }, []);
-
-  const completeSetup = async () => {
-    setHasSetup(true);
-    await db.execAsync("REPLACE INTO app (key, value) VALUES ('firstRun', 'false')");
-  }
-
-  return [hasSetup, completeSetup] as const;
+  return [hasSetup == 'true', () => updateHasSetup('true')] as const;
 }
