@@ -12,7 +12,7 @@ app.get('/resources', (req: Request, res: Response) => {
     short_description: 'Short Description',
     image: 'iamge',
     worth: 'worth',
-    link: 'Link',
+    link: 'https://www.google.com',
   }, {
     id: '2',
     title: 'Title4',
@@ -20,7 +20,7 @@ app.get('/resources', (req: Request, res: Response) => {
     short_description: 'Short Description',
     image: 'iamge',
     worth: 'worth',
-    link: 'Link',
+    link: 'https://google.com',
   }]);
 });
 
