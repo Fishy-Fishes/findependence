@@ -8,6 +8,7 @@ import AppTabs from '@/components/app-tabs';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useHasSetup } from '@/hooks/use-first-run';
 import { SyncProvider } from '@/hooks/use-sync-context';
+import { CurrentProvider } from '@/contexts/current';
 import SetupPage from '@/components/setup-page';
 
 SplashScreen.preventAutoHideAsync();
@@ -20,9 +21,11 @@ export default function TabLayout() {
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <SQLiteProvider databaseName="findependence.db" onInit={migrateDbIfNeeded}>
         <SyncProvider>
-          <QueryClientProvider client={queryClient}>
-            <MainPage />
-          </QueryClientProvider>
+          <CurrentProvider>
+            <QueryClientProvider client={queryClient}>
+              <MainPage />
+            </QueryClientProvider>
+          </CurrentProvider>
         </SyncProvider>
       </SQLiteProvider>
     </ThemeProvider>

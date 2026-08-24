@@ -6,13 +6,12 @@ import { Button } from 'expo-router/build/react-navigation';
 import { Spacing } from "@/constants/theme";
 import { ThemedText } from "../components/themed-text";
 import { useState } from "react";
+import { useCurrent } from "@/contexts/current";
 
 export default function LogIncome() {
   const [paycheck, setPaycheck] = useState('');
 
-  const [goal, setGoal] = useState(1000.0);
-  const [current, setCurrent] = useState(0.0);
-
+  const {goal, current, setCurrent} = useCurrent();
 
   const p = paycheck.split('$').join('')
   const newPaycheck = parseFloat(p ? p : '0');
@@ -55,6 +54,7 @@ export default function LogIncome() {
               style={[styles.button, styles.main]}
               onPress={() => {
                 setCurrent(current + newPaycheck);
+                setPaycheck('$');
               }}>
               Continue
             </Button>
