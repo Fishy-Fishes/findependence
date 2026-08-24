@@ -58,7 +58,7 @@ export default function LessonEntry({ onBeginLesson, onBack }: LessonEntryProps)
 
           <GlassCard radius={22} style={styles.heroCard}>
             <View style={styles.heroIconCircle}>
-              <Text style={styles.heroIconText}>💰</Text>
+              <Text style={styles.heroIconText}>$</Text>
             </View>
             <View style={styles.heroTextBlock}>
               <Text style={styles.heroTitle}>Ready to master your money?</Text>

@@ -37,23 +37,44 @@ export default function HomeScreen() {
   const [goalAmount, setGoalAmount] = useState(1000.0);
 
   const [loggingIncome, setLoggingIncome] = useState(false);
-  const ratio = 0.3
+  const ratio = 10
 
   return (
     <LinearGradient style={styles.gradient} colors={['#292F56', '#008CA4', '#ACFA70']}>
       <SafeAreaView style={styles.safeArea}>
-        <ThemedText type="small">
-          Location: {location}
-          Goal: {goal}
-        </ThemedText>
-        <Button
-          color="black"
-          onPress={() => { setLoggingIncome(true) }} >
-          Back
-        </Button>
+        <ThemedText type="title" style={[{ color: '#ffffff' }]}> Welcome </ThemedText>
+        <ThemedText type="subtitle" style={[{ color: '#ffffff' }]}>Findependence Goals</ThemedText>
+        <ThemedText type="default" style={[{ color: '#aaaaaa' }]}>You'll need to save more before you move</ThemedText>
+        <ThemedText type="default" style={[{ color: '#ffffff', textAlign: 'left' }]}>Bond</ThemedText>
+        <View style={styles.progressBar}>
+          <View style={[styles.progress, { width: `${ratio + 20}%` }]} />
+          <View style={[styles.progress, { width: '100%' }]} />
+        </View>
+        <ThemedText type="default" style={[{ color: '#ffffff', textAlign: 'left' }]}>Weekly income</ThemedText>
         <View style={styles.progressBar}>
           <View style={[styles.progress, { width: `${ratio}%` }]} />
           <View style={[styles.progress, { width: '100%' }]} />
+        </View>
+        <ThemedText type="default" style={[{ color: '#ffffff', textAlign: 'left' }]}>Setup costs & emergency buffer</ThemedText>
+        <View style={styles.progressBar}>
+          <View style={[styles.progress, { width: `${ratio}%` }]} />
+          <View style={[styles.progress, { width: '100%' }]} />
+        </View>
+        <ThemedText type="subtitle" style={[{ color: '#ffffff', textAlign: 'left' }]}>Daily Progress</ThemedText>
+        <ThemedText style={[{ color: '#dddddd', textAlign: 'left' }]}>Make sure to log or learn every day</ThemedText>
+        <View style={{ display: 'flex', flexDirection: 'row' }}>
+          <ThemedText style={[styles.days, styles.green]}>9</ThemedText>
+          <ThemedText style={[styles.days, styles.red]}>10</ThemedText>
+          <ThemedText style={styles.days}>11</ThemedText>
+          <ThemedText style={styles.days}>12</ThemedText>
+          <ThemedText style={styles.days}>13</ThemedText>
+          <ThemedText style={styles.days}>14</ThemedText>
+        </View>
+        <View style={{ display: 'flex', flexDirection: 'row' }}>
+          <View style={styles.card}>
+            <ThemedText type="small">Today's task</ThemedText>
+            <ThemedText>Learning about bonds</ThemedText>
+          </View>
         </View>
       </SafeAreaView>
     </LinearGradient>
@@ -61,6 +82,26 @@ export default function HomeScreen() {
 }
 
 const styles = StyleSheet.create({
+  card: {
+    width: '100%',
+    backgroundColor: '#ffffff44',
+    borderRadius: 10,
+    padding: 10,
+  },
+  days: {
+    backgroundColor: '#ffffff',
+    margin: 10,
+    padding: 10,
+    width: 40,
+    borderRadius: 8,
+    textAlign: 'center',
+  },
+  green: {
+    backgroundColor: '#ACFA70',
+  },
+  red: {
+    backgroundColor: '#EC4C4C',
+  },
   container: { padding: 16, backgroundColor: "#fff", borderRadius: 12 },
   progress: {
     backgroundColor: "#ffffff88",
