@@ -36,6 +36,9 @@ yarn-error.*
 # typescript
 *.tsbuildinfo
 
+# sync server data
+sync-store.json
+
 example
 
 # generated native folders
