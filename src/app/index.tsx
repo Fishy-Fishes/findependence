@@ -1,5 +1,6 @@
 import * as Device from 'expo-device';
-import { Platform, ScrollView, StyleSheet } from 'react-native';
+import { LinearGradient } from "expo-linear-gradient";
+import { Platform, ScrollView, StyleSheet, View } from 'react-native';
 
 import { ThemedText } from '@/components/themed-text';
 import { BottomTabInset, MaxContentWidth, Spacing } from '@/constants/theme';
@@ -36,10 +37,10 @@ export default function HomeScreen() {
   const [goalAmount, setGoalAmount] = useState(1000.0);
 
   const [loggingIncome, setLoggingIncome] = useState(false);
+  const ratio = 0.3
 
-  if (loggingIncome) return <LogIncome goal={goalAmount} current={currentAmount} addCurrentAmount={setCurrentAmount} setLoggingIncome={setLoggingIncome} />
   return (
-    <ScrollView contentContainerStyle={styles.container}>
+    <LinearGradient style={styles.gradient} colors={['#292F56', '#008CA4', '#ACFA70']}>
       <SafeAreaView style={styles.safeArea}>
         <ThemedText type="small">
           Location: {location}
@@ -50,13 +51,30 @@ export default function HomeScreen() {
           onPress={() => { setLoggingIncome(true) }} >
           Back
         </Button>
+        <View style={styles.progressBar}>
+          <View style={[styles.progress, { width: `${ratio}%` }]} />
+          <View style={[styles.progress, { width: '100%' }]} />
+        </View>
       </SafeAreaView>
-    </ScrollView>
+    </LinearGradient>
   );
 }
 
 const styles = StyleSheet.create({
   container: { padding: 16, backgroundColor: "#fff", borderRadius: 12 },
+  progress: {
+    backgroundColor: "#ffffff88",
+    height: 40,
+    borderRadius: 10,
+    position: 'absolute',
+  },
+  gradient: {
+    height: '100%',
+  },
+  progressBar: {
+    height: 40,
+    width: '100%',
+  },
   safeArea: {
     flex: 1,
     paddingHorizontal: Spacing.four,
