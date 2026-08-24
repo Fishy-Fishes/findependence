@@ -36,21 +36,53 @@ app.get('/resources', (_req: Request, res: Response) => {
   res.send([
     {
       id: '1',
-      title: 'Title2',
-      description: 'Description',
-      short_description: 'Short Description',
-      image: 'iamge',
-      worth: 'worth',
-      link: 'https://www.google.com',
+      title: 'Budget and Save',
+      description:
+        'Learn how to create a budget, manage your income and expenses, and build savings. Victorian Youth Central provides practical guidance designed to help young people develop money skills and work towards financial independence.',
+      short_description: 'Learn how to budget, save and manage your money.',
+      image: 'budget',
+      worth: 'Free',
+      link: 'https://www.youthcentral.vic.gov.au/money/how-budget-and-save',
     },
     {
       id: '2',
-      title: 'Title4',
-      description: 'Description',
-      short_description: 'Short Description',
-      image: 'iamge',
-      worth: 'worth',
-      link: 'https://google.com',
+      title: 'Money Management and Budgeting',
+      description:
+        'Explore Victorian Government resources for managing your finances, including budgeting, saving, cost-of-living support and financial counselling.',
+      short_description: 'Practical Victorian Government money management resources.',
+      image: 'money',
+      worth: 'Free',
+      link: 'https://www.service.vic.gov.au/find-services/personal',
+    },
+    {
+      id: '3',
+      title: 'Cost of Living Support',
+      description:
+        'Find Victorian Government services and support that can help reduce financial pressure, manage living costs and access assistance when you need it.',
+      short_description: 'Find support for managing everyday living costs.',
+      image: 'cost-of-living',
+      worth: 'Free',
+      link: 'https://www.service.vic.gov.au/find-services/personal',
+    },
+    {
+      id: '4',
+      title: 'Financial Counselling',
+      description:
+        'Access free, confidential and independent financial counselling for help with debts, bills, budgeting and managing financial difficulties.',
+      short_description: 'Get free help with debt, bills and financial problems.',
+      image: 'financial-counselling',
+      worth: 'Free',
+      link: 'https://www.consumer.vic.gov.au/clubs-and-fundraising/funded-services-and-grants/financial-counselling-program-2021-26/financial-counselling-program',
+    },
+    {
+      id: '5',
+      title: 'Financial Help',
+      description:
+        'Find Victorian Government information about financial assistance, financial counselling and other support services available to Victorians experiencing financial hardship.',
+      short_description: 'Find financial assistance and support services.',
+      image: 'financial-help',
+      worth: 'Free',
+      link: 'https://www.vic.gov.au/financial-help',
     },
   ]);
 });

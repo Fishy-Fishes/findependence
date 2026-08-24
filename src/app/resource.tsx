@@ -117,7 +117,7 @@ function ResourceCard({ resource: { title, description, short_description, image
         <ExternalLink href={link} asChild>
           <Pressable style={({ pressed }) => pressed && styles.pressed}>
             <ThemedView type="backgroundElement" style={styles.linkButton}>
-              <ThemedText type="link" style={styles.title}>{link}</ThemedText>
+              <ThemedText type="link" style={styles.title}>Link</ThemedText>
             </ThemedView>
           </Pressable>
         </ExternalLink>
@@ -146,7 +146,7 @@ function EnlargedCard({ resource: { title, description, worth, link }, onBack }:
         <ExternalLink href={link} asChild>
           <Pressable style={({ pressed }) => pressed && styles.pressed}>
             <ThemedView type="backgroundElement" style={styles.linkButton}>
-              <ThemedText type="link" style={styles.title}>{link}</ThemedText>
+              <ThemedText type="link" style={styles.title}>Link</ThemedText>
             </ThemedView>
           </Pressable>
         </ExternalLink>

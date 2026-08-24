@@ -1,21 +1,20 @@
-﻿import React, { useState } from 'react';
-import {
+﻿import {
   Platform,
   ScrollView,
   StyleSheet,
   Text,
-  TouchableOpacity,
   View,
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { BottomTabInset, MaxContentWidth, Spacing } from '@/constants/theme';
-import { useSQLKey } from '@/hooks/use-sql-key';
+import { BottomTabInset, MaxContentWidth } from '@/constants/theme';
 import { ScaleProgressBar } from '@/components/scale-progress-bar';
+import { useCurrent } from '@/contexts/current';
 
 export default function HomeScreen() {
-  const [location] = useSQLKey('location');
-  const [goal] = useSQLKey('goal');
+  const { current, goal } = useCurrent();
+
+  const ratio = current / goal
 
   return (
     <LinearGradient
@@ -31,7 +30,7 @@ export default function HomeScreen() {
         >
           {/* Header Section */}
           <View style={styles.headerContainer}>
-            <Text style={styles.welcomeTitle}>Welcome, Josh</Text>
+            <Text style={styles.welcomeTitle}>Welcome</Text>
 
             <View style={styles.goalTitleRow}>
               <Text style={styles.goalsTitle}>Findependence Goals</Text>
@@ -49,9 +48,9 @@ export default function HomeScreen() {
             <View style={styles.goalItem}>
               <Text style={styles.goalLabel}>Bond</Text>
               <ScaleProgressBar
-                progress={0.72}
+                progress={ratio}
                 color="#94EB68"
-                label="$2300"
+                label={`$${goal.toFixed(0)}`}
               />
             </View>
 

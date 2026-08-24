@@ -35,20 +35,11 @@ interface LessonEntryProps {
  * Implementation of the Figma "Lesson Engine — Entry" frame (133:413).
  * Gradient background with frosted-glass hero card, stat chips and unit list.
  */
-export default function LessonEntry({ onBeginLesson, onBack }: LessonEntryProps) {
+export default function LessonEntry({ onBeginLesson }: LessonEntryProps) {
   return (
     <View style={styles.root}>
       <LessonBackground />
       <SafeAreaView style={styles.safeArea} edges={["top", "bottom"]}>
-        <Pressable
-          onPress={onBack}
-          disabled={!onBack}
-          style={({ pressed }) => [styles.backButton, pressed && styles.pressed]}
-          accessibilityLabel="Go back"
-        >
-          <Text style={styles.backButtonText}>←</Text>
-        </Pressable>
-
         <ScrollView
           contentContainerStyle={styles.scrollContent}
           showsVerticalScrollIndicator={false}
