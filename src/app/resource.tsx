@@ -59,7 +59,8 @@ export default function Resources() {
     return (
       <LinearGradient style={styles.gradient} colors={['#292F56', '#008CA4', '#ACFA70']}>
         <SafeAreaView>
-          <ThemedView style={styles.titleContainer}>
+          <ThemedView style={[styles.enlargedContainer, styles.titleContainer]}>
+            <ThemedText style={styles.title} type="subtitle">Resources</ThemedText>
             <EnlargedCard resource={resource} onBack={() => setResource(null)} />
           </ThemedView>
         </SafeAreaView>
@@ -130,7 +131,7 @@ function EnlargedCard({ resource: { title, description, worth, link }, onBack }:
     <ThemedView style={[styles.fullCard, styles.card]}>
       <ThemedView>
         <ThemedView style={styles.padding}>
-          <ThemedText style={styles.title} type="smallBold">{title}</ThemedText>
+          <ThemedText style={styles.title} type="default">{title}</ThemedText>
         </ThemedView>
         {worth &&
           <ThemedView style={styles.padding}>
@@ -161,6 +162,9 @@ const styles = StyleSheet.create({
     paddingVertical: 6,
     marginTop: 10,
     color: 'white',
+  },
+  enlargedContainer: {
+    height: '100%',
   },
   secondary: {
     backgroundColor: "#ffffff55",
