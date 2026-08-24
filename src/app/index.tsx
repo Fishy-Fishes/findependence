@@ -5,6 +5,9 @@ import { ThemedText } from '@/components/themed-text';
 import { BottomTabInset, MaxContentWidth, Spacing } from '@/constants/theme';
 import { useSQLKey } from '@/hooks/use-sql-key';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import LogIncome from '@/components/log-income';
+import { useState } from 'react';
+import { Button } from 'expo-router/build/react-navigation';
 
 function getDevMenuHint() {
   if (Platform.OS === 'web') {
@@ -28,6 +31,8 @@ function getDevMenuHint() {
 export default function HomeScreen() {
   const [location] = useSQLKey("location");
   const [goal] = useSQLKey("goal");
+  const [loggingIncome, setLoggingIncome] = useState(false);
+  if (loggingIncome) return <LogIncome goal={100.0} current={10} setLoggingIncome={setLoggingIncome} />
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <SafeAreaView style={styles.safeArea}>
@@ -35,6 +40,11 @@ export default function HomeScreen() {
           Location: {location}
           Goal: {goal}
         </ThemedText>
+        <Button
+          color="black"
+          onPress={() => { setLoggingIncome(true) }} >
+          Back
+        </Button>
       </SafeAreaView>
     </ScrollView>
   );
