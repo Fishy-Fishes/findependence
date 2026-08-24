@@ -4,7 +4,6 @@ import { Platform, Pressable, ScrollView, StyleSheet } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { ExternalLink } from "@/components/external-link";
-import LessonEngine from "@/components/lesson-engine/LessonEngine";
 import { ThemedText } from "@/components/themed-text";
 import { ThemedView } from "@/components/themed-view";
 import { Collapsible } from "@/components/ui/collapsible";
@@ -137,10 +136,6 @@ export default function TabTwoScreen() {
               <ThemedText type="code">react-native-reanimated</ThemedText>{" "}
               library to animate opening this hint.
             </ThemedText>
-          </Collapsible>
-
-          <Collapsible title="Lesson Engine">
-            <LessonEngine />
           </Collapsible>
         </ThemedView>
         {Platform.OS === "web" && <WebBadge />}

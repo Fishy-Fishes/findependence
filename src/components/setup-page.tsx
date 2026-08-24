@@ -1,16 +1,16 @@
-import { Platform, StyleSheet, TextInput } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { LinearGradient } from "expo-linear-gradient";
+import { Platform, StyleSheet, TextInput } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { WebBadge } from '@/components/web-badge';
-import { BottomTabInset, MaxContentWidth, Spacing } from '@/constants/theme';
-import { useSync } from '@/hooks/use-sync-context';
-import { SyncError, restoreFromServer, syncToServer } from '@/lib/sync';
-import { Button } from 'expo-router/build/react-navigation';
-import { useSQLiteContext } from 'expo-sqlite';
-import { useState } from 'react';
+import { ThemedText } from "@/components/themed-text";
+import { ThemedView } from "@/components/themed-view";
+import { WebBadge } from "@/components/web-badge";
+import { BottomTabInset, MaxContentWidth, Spacing } from "@/constants/theme";
+import { useSync } from "@/hooks/use-sync-context";
+import { SyncError, restoreFromServer, syncToServer } from "@/lib/sync";
+import { Button } from "expo-router/build/react-navigation";
+import { useSQLiteContext } from "expo-sqlite";
+import { useState } from "react";
 
 enum SetupScreen {
   LandingPage,
@@ -20,19 +20,29 @@ enum SetupScreen {
   SetKeyphrase,
 }
 
-export default function SetupPage({ completeSetup }: { completeSetup: () => void }) {
+export default function SetupPage({
+  completeSetup,
+}: {
+  completeSetup: () => void;
+}) {
   const db = useSQLiteContext();
   const { setKeyphrase } = useSync();
 
   const [screen, setScreen] = useState(SetupScreen.LandingPage);
-  const [location, setLocation] = useState('');
-  const [goal, setGoal] = useState('');
-  const [keyphrase, setLocalKeyphrase] = useState('');
+  const [location, setLocation] = useState("");
+  const [goal, setGoal] = useState("");
+  const [keyphrase, setLocalKeyphrase] = useState("");
 
   const onSubmit = async () => {
-    await db.runAsync("REPLACE INTO app (key, value) VALUES ('location', ?)", [location]);
-    await db.runAsync("REPLACE INTO app (key, value) VALUES ('goal', ?)", [goal]);
-    await db.runAsync("REPLACE INTO app (key, value) VALUES ('hasSetup', ?)", ['true']);
+    await db.runAsync("REPLACE INTO app (key, value) VALUES ('location', ?)", [
+      location,
+    ]);
+    await db.runAsync("REPLACE INTO app (key, value) VALUES ('goal', ?)", [
+      goal,
+    ]);
+    await db.runAsync("REPLACE INTO app (key, value) VALUES ('hasSetup', ?)", [
+      "true",
+    ]);
 
     setKeyphrase(keyphrase);
     await syncToServer(db, keyphrase);
@@ -46,10 +56,7 @@ export default function SetupPage({ completeSetup }: { completeSetup: () => void
       return <Option setScreen={setScreen} />;
     case SetupScreen.RecoverByCode:
       return (
-        <RecoverByCode
-          setScreen={setScreen}
-          completeSetup={completeSetup}
-        />
+        <RecoverByCode setScreen={setScreen} completeSetup={completeSetup} />
       );
     case SetupScreen.AboutYou:
       return (
@@ -77,7 +84,10 @@ export default function SetupPage({ completeSetup }: { completeSetup: () => void
 function LandingPage({ setScreen }: { setScreen: (s: SetupScreen) => void }) {
   return (
     <ThemedView style={styles.container}>
-      <LinearGradient style={styles.gradient} colors={['#292F56', '#008CA4', '#ACFA70']}>
+      <LinearGradient
+        style={styles.gradient}
+        colors={["#292F56", "#008CA4", "#ACFA70"]}
+      >
         <SafeAreaView style={styles.safeArea}>
           <ThemedView style={styles.heroSection}>
             <ThemedText type="subtitle" style={styles.title}>
@@ -91,10 +101,10 @@ function LandingPage({ setScreen }: { setScreen: (s: SetupScreen) => void }) {
               setScreen(SetupScreen.Option);
             }}
           >
-            Gain your financial independence -{'>'}
+            Gain your financial independence -{">"}
           </Button>
 
-          {Platform.OS === 'web' && <WebBadge />}
+          {Platform.OS === "web" && <WebBadge />}
         </SafeAreaView>
       </LinearGradient>
     </ThemedView>
@@ -104,7 +114,10 @@ function LandingPage({ setScreen }: { setScreen: (s: SetupScreen) => void }) {
 function Option({ setScreen }: { setScreen: (s: SetupScreen) => void }) {
   return (
     <ThemedView style={styles.container}>
-      <LinearGradient style={styles.gradient} colors={['#292F56', '#008CA4', '#ACFA70']}>
+      <LinearGradient
+        style={styles.gradient}
+        colors={["#292F56", "#008CA4", "#ACFA70"]}
+      >
         <SafeAreaView style={styles.safeArea}>
           <ThemedView style={styles.heroSection}>
             <ThemedText type="subtitle" style={styles.title}>
@@ -131,7 +144,7 @@ function Option({ setScreen }: { setScreen: (s: SetupScreen) => void }) {
             Recover By Keyphrase
           </Button>
 
-          {Platform.OS === 'web' && <WebBadge />}
+          {Platform.OS === "web" && <WebBadge />}
         </SafeAreaView>
       </LinearGradient>
     </ThemedView>
@@ -147,13 +160,13 @@ function RecoverByCode({
 }) {
   const db = useSQLiteContext();
   const { setKeyphrase } = useSync();
-  const [keyphraseInput, setKeyphraseInput] = useState('');
+  const [keyphraseInput, setKeyphraseInput] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [isRestoring, setIsRestoring] = useState(false);
 
   const onRestore = async () => {
     if (!keyphraseInput.trim()) {
-      setError('Enter your secret keyphrase');
+      setError("Enter your secret keyphrase");
       return;
     }
 
@@ -164,7 +177,7 @@ function RecoverByCode({
       setKeyphrase(keyphraseInput.trim());
       completeSetup();
     } catch (err) {
-      setError(err instanceof SyncError ? err.message : 'Restore failed');
+      setError(err instanceof SyncError ? err.message : "Restore failed");
     } finally {
       setIsRestoring(false);
     }
@@ -172,14 +185,18 @@ function RecoverByCode({
 
   return (
     <ThemedView style={styles.container}>
-      <LinearGradient style={styles.gradient} colors={['#292F56', '#008CA4', '#ACFA70']}>
+      <LinearGradient
+        style={styles.gradient}
+        colors={["#292F56", "#008CA4", "#ACFA70"]}
+      >
         <SafeAreaView style={styles.safeArea}>
           <ThemedView style={styles.heroSection}>
             <ThemedText type="subtitle" style={styles.title}>
               Restore Your Data
             </ThemedText>
             <ThemedText type="default" style={styles.heading}>
-              Enter your secret keyphrase to unlock and restore your encrypted backup.
+              Enter your secret keyphrase to unlock and restore your encrypted
+              backup.
             </ThemedText>
             <TextInput
               value={keyphraseInput}
@@ -203,7 +220,7 @@ function RecoverByCode({
             onPress={onRestore}
             disabled={isRestoring}
           >
-            {isRestoring ? 'Restoring...' : 'Unlock & Restore'}
+            {isRestoring ? "Restoring..." : "Unlock & Restore"}
           </Button>
           <Button
             color="black"
@@ -215,7 +232,7 @@ function RecoverByCode({
             Back
           </Button>
 
-          {Platform.OS === 'web' && <WebBadge />}
+          {Platform.OS === "web" && <WebBadge />}
         </SafeAreaView>
       </LinearGradient>
     </ThemedView>
@@ -241,7 +258,10 @@ function AboutYou({
 }: AboutYouProps) {
   return (
     <ThemedView style={styles.container}>
-      <LinearGradient style={styles.gradient} colors={['#292F56', '#008CA4', '#ACFA70']}>
+      <LinearGradient
+        style={styles.gradient}
+        colors={["#292F56", "#008CA4", "#ACFA70"]}
+      >
         <SafeAreaView style={styles.safeArea}>
           <ThemedView style={styles.heroSection}>
             <ThemedText type="subtitle" style={styles.title}>
@@ -268,7 +288,11 @@ function AboutYou({
               style={styles.input}
             />
           </ThemedView>
-          <Button color="black" style={[styles.button, styles.main]} onPress={onContinue}>
+          <Button
+            color="black"
+            style={[styles.button, styles.main]}
+            onPress={onContinue}
+          >
             Continue
           </Button>
           <Button
@@ -281,7 +305,7 @@ function AboutYou({
             Back
           </Button>
 
-          {Platform.OS === 'web' && <WebBadge />}
+          {Platform.OS === "web" && <WebBadge />}
         </SafeAreaView>
       </LinearGradient>
     </ThemedView>
@@ -299,17 +323,17 @@ function SetKeyphrase({
   setScreen: (s: SetupScreen) => void;
   onSubmit: () => void;
 }) {
-  const [confirmKeyphrase, setConfirmKeyphrase] = useState('');
+  const [confirmKeyphrase, setConfirmKeyphrase] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const onContinue = async () => {
     if (keyphrase.length < 8) {
-      setError('Keyphrase must be at least 8 characters');
+      setError("Keyphrase must be at least 8 characters");
       return;
     }
     if (keyphrase !== confirmKeyphrase) {
-      setError('Keyphrases do not match');
+      setError("Keyphrases do not match");
       return;
     }
 
@@ -318,7 +342,7 @@ function SetKeyphrase({
     try {
       await onSubmit();
     } catch {
-      setError('Could not save backup. Make sure the sync server is running.');
+      setError("Could not save backup. Make sure the sync server is running.");
     } finally {
       setIsSubmitting(false);
     }
@@ -326,15 +350,18 @@ function SetKeyphrase({
 
   return (
     <ThemedView style={styles.container}>
-      <LinearGradient style={styles.gradient} colors={['#292F56', '#008CA4', '#ACFA70']}>
+      <LinearGradient
+        style={styles.gradient}
+        colors={["#292F56", "#008CA4", "#ACFA70"]}
+      >
         <SafeAreaView style={styles.safeArea}>
           <ThemedView style={styles.heroSection}>
             <ThemedText type="subtitle" style={styles.title}>
               Secure Your Data
             </ThemedText>
             <ThemedText type="default" style={styles.heading}>
-              Choose a secret keyphrase. Your data is encrypted with it and can be restored after
-              reinstalling the app.
+              Choose a secret keyphrase. Your data is encrypted with it and can
+              be restored after reinstalling the app.
             </ThemedText>
             <TextInput
               value={keyphrase}
@@ -368,7 +395,7 @@ function SetKeyphrase({
             onPress={onContinue}
             disabled={isSubmitting}
           >
-            {isSubmitting ? 'Saving...' : 'Save & Continue'}
+            {isSubmitting ? "Saving..." : "Save & Continue"}
           </Button>
           <Button
             color="black"
@@ -380,7 +407,7 @@ function SetKeyphrase({
             Back
           </Button>
 
-          {Platform.OS === 'web' && <WebBadge />}
+          {Platform.OS === "web" && <WebBadge />}
         </SafeAreaView>
       </LinearGradient>
     </ThemedView>
@@ -389,67 +416,67 @@ function SetKeyphrase({
 
 const styles = StyleSheet.create({
   button: {
-    width: '100%',
+    width: "100%",
   },
   main: {
-    backgroundColor: 'white',
+    backgroundColor: "white",
   },
   secondary: {
-    backgroundColor: '#ffffff55',
+    backgroundColor: "#ffffff55",
   },
   gradient: {
-    width: '100%',
+    width: "100%",
   },
   text: {
-    color: 'white',
+    color: "white",
   },
   error: {
-    color: '#ffb4b4',
-    textAlign: 'center',
+    color: "#ffb4b4",
+    textAlign: "center",
   },
   input: {
     height: 40,
     borderRadius: 4,
-    backgroundColor: '#ffffffbb',
-    width: '100%',
+    backgroundColor: "#ffffffbb",
+    width: "100%",
     padding: 5,
   },
   container: {
     flex: 1,
-    justifyContent: 'center',
-    flexDirection: 'row',
+    justifyContent: "center",
+    flexDirection: "row",
   },
   safeArea: {
     flex: 1,
     paddingHorizontal: Spacing.four,
-    alignItems: 'center',
+    alignItems: "center",
     gap: Spacing.three,
     paddingBottom: BottomTabInset + Spacing.three,
     maxWidth: MaxContentWidth,
   },
   heroSection: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: '100%',
+    alignItems: "center",
+    justifyContent: "center",
+    width: "100%",
     flex: 1,
     paddingHorizontal: Spacing.four,
-    backgroundColor: 'transparent',
+    backgroundColor: "transparent",
     gap: Spacing.four,
   },
   title: {
-    textAlign: 'center',
-    color: 'white',
+    textAlign: "center",
+    color: "white",
   },
   heading: {
-    textAlign: 'left',
-    color: 'white',
+    textAlign: "left",
+    color: "white",
   },
   code: {
-    textTransform: 'uppercase',
+    textTransform: "uppercase",
   },
   stepContainer: {
     gap: Spacing.three,
-    alignSelf: 'stretch',
+    alignSelf: "stretch",
     paddingHorizontal: Spacing.three,
     paddingVertical: Spacing.four,
     borderRadius: Spacing.four,
