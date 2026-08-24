@@ -5,9 +5,23 @@ const PORT = 3000;                 // Define port number
 app.use(express.json());
 
 app.get('/resources', (req: Request, res: Response) => {
-  res.send({
-    test: "hello"
-  });
+  res.send([{
+    id: '1',
+    title: 'Title2',
+    description: 'Description',
+    short_description: 'Short Description',
+    image: 'iamge',
+    worth: 'worth',
+    link: 'Link',
+  }, {
+    id: '2',
+    title: 'Title4',
+    description: 'Description',
+    short_description: 'Short Description',
+    image: 'iamge',
+    worth: 'worth',
+    link: 'Link',
+  }]);
 });
 
 app.listen(PORT, () => {

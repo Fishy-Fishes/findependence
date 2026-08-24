@@ -1,8 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 import {
+  ScrollView,
   Text,
 } from "react-native";
-import { SymbolView } from "expo-symbols";
 import { Pressable, StyleSheet } from "react-native";
 
 import { ExternalLink } from "@/components/external-link";
@@ -10,8 +10,9 @@ import { ThemedText } from "@/components/themed-text";
 import { ThemedView } from "@/components/themed-view";
 import { MaxContentWidth, Spacing } from "@/constants/theme";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { LinearGradient } from "expo-linear-gradient";
 
-async function fetchResources() {
+async function fetchResources(): Promise<Resource[]> {
   const response = await fetch('http://localhost:3000/resources');
   if (!response.ok) throw new Error('Network error');
   return response.json();
@@ -21,53 +22,111 @@ export default function Resources() {
   const { data, error, isLoading } = useQuery({
     queryKey: ['resources'],
     queryFn: fetchResources,
+    refetchInterval: 1000,
   });
 
   if (isLoading) {
     return (
-      <SafeAreaView>
-        <ThemedView style={styles.titleContainer}>
-          <Text>Loading...</Text>
-        </ThemedView>
-      </SafeAreaView>
+      <LinearGradient style={styles.gradient} colors={['#292F56', '#008CA4', '#ACFA70']}>
+        <SafeAreaView>
+          <ThemedView style={styles.titleContainer}>
+            <Text>Loading...</Text>
+          </ThemedView>
+        </SafeAreaView>
+      </LinearGradient>
     )
   }
 
   if (error) {
     return (
-      <SafeAreaView>
-        <ThemedView style={styles.titleContainer}>
-          <Text>Unexpected error, please try again later.</Text>
-        </ThemedView>
-      </SafeAreaView>
+      <LinearGradient style={styles.gradient} colors={['#292F56', '#008CA4', '#ACFA70']}>
+        <SafeAreaView>
+          <ThemedView style={styles.titleContainer}>
+            <Text>Unexpected error, please try again later.</Text>
+          </ThemedView>
+        </SafeAreaView>
+      </LinearGradient>
     )
   }
 
-  console.log(data)
-
   return (
-    <SafeAreaView>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="subtitle">Explore</ThemedText>
-        <ThemedText style={styles.centerText} themeColor="textSecondary">
-          This starter app includes example{"\n"}code to help you get started.
-        </ThemedText>
+    <LinearGradient style={styles.gradient} colors={['#292F56', '#008CA4', '#ACFA70']}>
+      <SafeAreaView>
+        <ScrollView>
+          <ThemedView style={styles.titleContainer}>
+            <ThemedText style={styles.title} type="subtitle">Resources</ThemedText>
+            {/*
+          <ThemedText style={styles.centerText} themeColor="textSecondary">
+            This starter app includes example{"\n"}code to help you get started.
+          </ThemedText>
+              <ExternalLink href="https://docs.expo.dev" asChild>
+            <Pressable style={({ pressed }) => pressed && styles.pressed}>
+              <ThemedView type="backgroundElement" style={styles.linkButton}>
+                <ThemedText type="link">Expo documentation</ThemedText>
+              </ThemedView>
+            </Pressable>
+          </ExternalLink> */}
 
-        <ExternalLink href="https://docs.expo.dev" asChild>
-          <Pressable style={({ pressed }) => pressed && styles.pressed}>
-            <ThemedView type="backgroundElement" style={styles.linkButton}>
-              <ThemedText type="link">Expo documentation</ThemedText>
-            </ThemedView>
-          </Pressable>
-        </ExternalLink>
+            {data && data.map(d => <ResourceCard key={d.id} resource={d} />)}
+          </ThemedView>
+        </ScrollView>
+      </SafeAreaView>
+    </LinearGradient>
+  )
+}
+
+interface Resource {
+  id: string,
+  title: string,
+  description: string,
+  short_description: string,
+  image: string | null,
+  worth: string,
+  link: string,
+}
+
+function ResourceCard({ resource: { title, description, short_description, image, worth, link } }: { resource: Resource }) {
+  return (
+    <ThemedView style={styles.card}>
+      <ThemedView style={styles.padding}>
+        <ThemedText style={styles.title} type="smallBold">{title}</ThemedText>
       </ThemedView>
-    </SafeAreaView>
+      <ThemedView style={styles.padding}>
+        <ThemedText style={styles.title} type="small">{short_description}</ThemedText>
+      </ThemedView>
+      <ExternalLink href="https://docs.expo.dev" asChild>
+        <Pressable style={({ pressed }) => pressed && styles.pressed}>
+          <ThemedView type="backgroundElement" style={styles.linkButton}>
+            <ThemedText type="link" style={styles.title}>{link}</ThemedText>
+          </ThemedView>
+        </Pressable>
+      </ExternalLink>
+    </ThemedView>
   )
 }
 
 const styles = StyleSheet.create({
   scrollView: {
     flex: 1,
+  },
+  title: {
+    color: 'white',
+  },
+  padding: {
+    paddingVertical: Spacing.two,
+    paddingTop: Spacing.half,
+  },
+  gradient: {
+    height: '100%',
+  },
+  card: {
+    backdropFilter: "blur(10)",
+    borderWidth: 1,
+    width: '100%',
+    borderRadius: 8,
+    borderColor: '#ffffff88',
+    backgroundColor: '#ffffff33',
+    padding: 8,
   },
   contentContainer: {
     flexDirection: "row",
@@ -92,11 +151,12 @@ const styles = StyleSheet.create({
   linkButton: {
     flexDirection: "row",
     paddingHorizontal: Spacing.four,
-    paddingVertical: Spacing.two,
-    borderRadius: Spacing.five,
+    paddingVertical: Spacing.half,
+    borderRadius: 10,
     justifyContent: "center",
     gap: Spacing.one,
     alignItems: "center",
+    backgroundColor: '#1D4C6E',
   },
   sectionsWrapper: {
     gap: Spacing.five,
